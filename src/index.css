@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gradient-unity: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-unreal: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+  }
+
+  body {
+    @apply bg-gray-950 text-gray-100 antialiased;
+  }
+
+  * {
+    @apply border-gray-800;
+  }
+}
+
+@layer components {
+  .gradient-unity {
+    background: var(--gradient-unity);
+  }
+
+  .gradient-unreal {
+    background: var(--gradient-unreal);
+  }
+
+  .glass {
+    @apply bg-gray-900/50 backdrop-blur-xl border border-gray-800/50;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105;
+  }
+}
