@@ -84,9 +84,9 @@ function App() {
         if (currentQuestion.id === 'q3') {
           newProfile.experience = selectedValues[0];
         } else if (currentQuestion.id === 'q3-1') {
-          newProfile.language = selectedValues;
+          newProfile.language = selectedValues.filter((v): v is string => v !== undefined);
         } else if (currentQuestion.id === 'q4-1') {
-          newProfile.engine = selectedValues;
+          newProfile.engine = selectedValues.filter((v): v is string => v !== undefined);
         }
         break;
       case 'preference':

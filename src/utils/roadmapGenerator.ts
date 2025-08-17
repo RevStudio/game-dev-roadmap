@@ -5,7 +5,7 @@ export function generateRoadmap(
   engine: 'Unity' | 'Unreal'
 ): Roadmap {
   const isExperienced = profile.experience === 'yes';
-  const hasProgramming = profile.language && profile.language.length > 0;
+  const hasProgramming = !!(profile.language && profile.language.length > 0);
   
   if (engine === 'Unity') {
     return generateUnityRoadmap(profile, isExperienced, hasProgramming);
@@ -16,7 +16,7 @@ export function generateRoadmap(
 
 function generateUnityRoadmap(
   profile: UserProfile,
-  isExperienced: boolean,
+  _isExperienced: boolean,
   hasProgramming: boolean
 ): Roadmap {
   const phases: Phase[] = [];
@@ -213,7 +213,7 @@ function generateUnityRoadmap(
 
 function generateUnrealRoadmap(
   profile: UserProfile,
-  isExperienced: boolean,
+  _isExperienced: boolean,
   hasProgramming: boolean
 ): Roadmap {
   const phases: Phase[] = [];
