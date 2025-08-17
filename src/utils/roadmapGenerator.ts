@@ -21,18 +21,40 @@ function generateUnityRoadmap(
 ): Roadmap {
   const phases: Phase[] = [];
   
+  // C# 언어 학습 필요 여부 체크
+  const needsCSharp = !profile.language?.includes('csharp');
+  const hasOtherLanguage = profile.language && profile.language.length > 0 && !needsCSharp;
+  
   if (!hasProgramming) {
+    // 프로그래밍 경험이 전혀 없는 경우
     phases.push({
       id: 'phase-1',
-      title: 'Phase 1: 프로그래밍 기초',
-      duration: '2-3개월',
+      title: 'Phase 1: 프로그래밍 기초 & C# 입문',
+      duration: '3-4개월',
       tasks: [
-        'C# 기초 문법 학습',
-        '객체지향 프로그래밍 이해',
+        '프로그래밍 기본 개념 (변수, 조건문, 반복문)',
+        'C# 기초 문법 완벽 마스터',
+        '객체지향 프로그래밍 (OOP) 개념',
         '자료구조와 알고리즘 기초',
-        'Visual Studio 사용법 익히기'
+        'Visual Studio 개발 환경 숙달',
+        '간단한 콘솔 프로젝트 5개 이상 제작'
       ],
-      milestone: 'C# 콘솔 프로그램 작성 가능'
+      milestone: 'C# 콘솔 프로그램 자유롭게 작성 가능'
+    });
+  } else if (needsCSharp && hasOtherLanguage) {
+    // 다른 언어 경험은 있지만 C#은 처음인 경우
+    phases.push({
+      id: 'phase-1',
+      title: 'Phase 1: C# 언어 전환 과정',
+      duration: '1-2개월',
+      tasks: [
+        'C# 문법과 특징 학습',
+        '.NET 프레임워크 이해',
+        'C#만의 고유 기능 (LINQ, async/await, delegate)',
+        'Unity에서 사용하는 C# 패턴',
+        'C# 코딩 컨벤션과 베스트 프랙티스'
+      ],
+      milestone: 'C#으로 Unity 스크립트 작성 가능'
     });
   }
   
@@ -168,10 +190,20 @@ function generateUnityRoadmap(
     return acc + duration;
   }, 0);
   
+  // 난이도 계산 (언어 경험 반영)
+  let difficulty = 4; // 기본 난이도
+  if (profile.language?.includes('csharp')) {
+    difficulty = 2; // C# 경험자는 매우 쉬움
+  } else if (hasProgramming) {
+    difficulty = 3; // 다른 언어 경험자는 보통
+  } else {
+    difficulty = 4; // 프로그래밍 초보자는 어려움
+  }
+  
   return {
     title: 'Unity 게임 개발자 로드맵',
     duration: `${Math.floor(totalMonths / 12)}년 ${totalMonths % 12}개월`,
-    difficulty: hasProgramming ? 3 : 4,
+    difficulty,
     phases,
     tools: ['Unity Hub', 'Visual Studio', 'Git', 'Blender (선택)', 'Photoshop (선택)'],
     resources,
@@ -186,18 +218,59 @@ function generateUnrealRoadmap(
 ): Roadmap {
   const phases: Phase[] = [];
   
-  if (!hasProgramming || !profile.language?.includes('cpp')) {
+  // C++ 언어 학습 필요 여부 체크
+  const needsCpp = !profile.language?.includes('cpp');
+  const hasCSharp = profile.language?.includes('csharp');
+  const hasOtherLanguage = profile.language && profile.language.length > 0 && !needsCpp;
+  
+  if (!hasProgramming) {
+    // 프로그래밍 경험이 전혀 없는 경우
     phases.push({
       id: 'phase-1',
-      title: 'Phase 1: C++ 기초 & 블루프린트',
-      duration: '3-4개월',
+      title: 'Phase 1: 프로그래밍 기초 & C++ 입문',
+      duration: '4-6개월',
       tasks: [
-        'C++ 기초 문법 (포인터, 참조, 클래스)',
-        '블루프린트 비주얼 스크립팅',
-        'Unreal 오브젝트 모델 이해',
-        'Visual Studio 설정과 디버깅'
+        '프로그래밍 기본 개념 학습',
+        'C++ 기초 문법 (변수, 함수, 클래스)',
+        '포인터와 메모리 관리 완벽 이해',
+        '객체지향 프로그래밍 심화',
+        'STL(Standard Template Library) 활용',
+        '블루프린트 비주얼 스크립팅 병행 학습',
+        'Visual Studio 디버깅 마스터'
       ],
-      milestone: '블루프린트로 간단한 게임 제작'
+      milestone: 'C++ 기초 프로그램 작성 및 블루프린트 활용 가능'
+    });
+  } else if (needsCpp && hasCSharp) {
+    // C# 경험자가 C++로 전환하는 경우
+    phases.push({
+      id: 'phase-1',
+      title: 'Phase 1: C#에서 C++로 전환',
+      duration: '2-3개월',
+      tasks: [
+        'C++와 C#의 차이점 이해',
+        '수동 메모리 관리 (new/delete, 스마트 포인터)',
+        '포인터와 참조 완벽 이해',
+        'C++ 템플릿과 제네릭의 차이',
+        'Unreal C++ 코딩 표준',
+        '블루프린트와 C++ 연동'
+      ],
+      milestone: 'Unreal C++ 클래스 작성 가능'
+    });
+  } else if (needsCpp && hasOtherLanguage) {
+    // 다른 언어 경험자가 C++를 배우는 경우
+    phases.push({
+      id: 'phase-1',
+      title: 'Phase 1: C++ 언어 전환 과정',
+      duration: '2-3개월',
+      tasks: [
+        'C++ 문법과 특징 학습',
+        '메모리 관리와 포인터',
+        'C++ 표준 라이브러리 (STL)',
+        'Unreal Engine C++ 특징',
+        '블루프린트 기초 (C++ 대안)',
+        'Visual Studio 환경 설정'
+      ],
+      milestone: 'C++ 또는 블루프린트로 게임 로직 구현 가능'
     });
   }
   
@@ -332,10 +405,22 @@ function generateUnrealRoadmap(
     return acc + duration;
   }, 0);
   
+  // 난이도 계산 (언어 경험 반영)
+  let difficulty = 5; // 기본 난이도 (Unreal은 Unity보다 어려움)
+  if (profile.language?.includes('cpp')) {
+    difficulty = 3; // C++ 경험자는 보통
+  } else if (profile.language?.includes('csharp')) {
+    difficulty = 4; // C# 경험자는 약간 어려움 (언어 전환 필요)
+  } else if (hasProgramming) {
+    difficulty = 4; // 다른 언어 경험자
+  } else {
+    difficulty = 5; // 프로그래밍 초보자는 매우 어려움
+  }
+  
   return {
     title: 'Unreal Engine 개발자 로드맵',
     duration: `${Math.floor(totalMonths / 12)}년 ${totalMonths % 12}개월`,
-    difficulty: hasProgramming && profile.language?.includes('cpp') ? 3 : 5,
+    difficulty,
     phases,
     tools: ['Unreal Engine', 'Visual Studio', 'Git', 'Perforce (선택)', 'Houdini (선택)'],
     resources,

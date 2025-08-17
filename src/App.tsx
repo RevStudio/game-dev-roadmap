@@ -21,6 +21,20 @@ function App() {
   const [questionPath, setQuestionPath] = useState<string[]>(['q1']);
 
   const currentQuestion = questions.find(q => q.id === questionPath[currentQuestionIndex]);
+  
+  // 실제 답변할 질문 수 계산 (조건부 질문 고려)
+  const getTotalQuestions = () => {
+    const baseQuestions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+    const hasProgExp = userProfile.experience === 'yes';
+    const hasEngineExp = questionPath.includes('q4-1');
+    
+    // 기본 9개 + 조건부 질문들
+    let total = baseQuestions.length;
+    if (hasProgExp || questionPath.includes('q3-1')) total++; // q3-1
+    if (hasEngineExp) total++; // q4-1
+    
+    return Math.min(total, 11); // 최대 11개
+  };
 
   const handleStart = () => {
     setAppState('questions');
@@ -149,7 +163,7 @@ function App() {
               onOptionSelect={handleOptionSelect}
               onNext={handleNext}
               currentIndex={currentQuestionIndex}
-              totalQuestions={9}
+              totalQuestions={getTotalQuestions()}
             />
           </div>
         )}
